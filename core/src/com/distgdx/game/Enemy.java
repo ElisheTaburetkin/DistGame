@@ -1,34 +1,36 @@
-package com.mygdx.game;
+package com.distgdx.game;
 
-import static com.mygdx.game.DistGdxGame.*;
+import static com.distgdx.game.MyGame.*;
+
 import com.badlogic.gdx.math.MathUtils;
 
-public class Decoy {
+public class Enemy {
     float x, y;
     float width, height;
     float vx, vy;
-    int phase, nPhases = 2;
+    int phase, nPhases = 4;
     boolean isAlive = true;
 
-    public Decoy(){
+    public Enemy(){
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
         width = height = MathUtils.random(50, 150);
         vx = MathUtils.random(-5f, 5);
         vy = MathUtils.random(-5f, 5);
-        phase = MathUtils.random(0, nPhases-1);
+        phase = MathUtils.random(0, 2);
     }
     float scrX(){ //экранная Х
-        return  x-width/2;
+        return  x - width/2;
     }
     float scrY(){
-        return  y-height/2;
+        return  y - height/2;
     }
+
     void move(){
         x+=vx;
         y+=vy;
         if (isAlive) {
-            changePhase();
+            //changePhase();
             notoutOfBounds();
         }
     }
@@ -52,11 +54,20 @@ public class Decoy {
     boolean hit(float tx, float ty){
         if(x-width/2 < tx && tx < x+width/2 && y-height/2<ty && ty < y + height/2){
             isAlive = false;
-            phase = 1; //в оригинале было 10, но у меня нету 10 файла
+            phase = 3;
             vx = 0;
             vy = -8;
             return true;
         }
         return false;
+    }
+    void reBorn(){
+        isAlive = true;
+        x = SCR_WIDTH/2f;
+        y = SCR_HEIGHT/2f;
+        width = height = MathUtils.random(50, 150);
+        vx = MathUtils.random(-5f, 5);
+        vy = MathUtils.random(-5f, 5);
+        phase = MathUtils.random(0, nPhases-1);
     }
 }

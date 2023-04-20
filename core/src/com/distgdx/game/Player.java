@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.distgdx.game;
 
 public class Player {
     String name;

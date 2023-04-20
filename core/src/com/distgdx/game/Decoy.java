@@ -1,16 +1,16 @@
-package com.mygdx.game;
+package com.distgdx.game;
 
-import static com.mygdx.game.DistGdxGame.*;
+import static com.distgdx.game.MyGame.*;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Mosquito {
+public class Decoy {
     float x, y;
     float width, height;
     float vx, vy;
     int phase, nPhases = 2;
     boolean isAlive = true;
 
-    public Mosquito(){
+    public Decoy(){
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
         width = height = MathUtils.random(50, 150);
@@ -19,12 +19,11 @@ public class Mosquito {
         phase = MathUtils.random(0, nPhases-1);
     }
     float scrX(){ //экранная Х
-        return  x - width/2;
+        return  x-width/2;
     }
     float scrY(){
-        return  y - height/2;
+        return  y-height/2;
     }
-
     void move(){
         x+=vx;
         y+=vy;
@@ -59,14 +58,5 @@ public class Mosquito {
             return true;
         }
         return false;
-    }
-    void reBorn(){
-        isAlive = true;
-        x = SCR_WIDTH/2f;
-        y = SCR_HEIGHT/2f;
-        width = height = MathUtils.random(50, 150);
-        vx = MathUtils.random(-5f, 5);
-        vy = MathUtils.random(-5f, 5);
-        phase = MathUtils.random(0, nPhases-1);
     }
 }

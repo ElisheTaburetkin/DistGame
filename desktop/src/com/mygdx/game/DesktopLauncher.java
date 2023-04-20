@@ -1,10 +1,8 @@
 package com.mygdx.game;
 
-import static com.mygdx.game.DistGdxGame.*;
-
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.mygdx.game.DistGdxGame;
+import com.distgdx.game.MyGame;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -12,7 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Dist GDX Game");
-		config.setWindowedMode(SCR_WIDTH, SCR_HEIGHT);
-		new Lwjgl3Application(new DistGdxGame(), config);
+		config.setWindowedMode(1280, 720);
+		new Lwjgl3Application(new MyGame(), config);
 	}
 }
