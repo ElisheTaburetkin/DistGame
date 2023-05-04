@@ -1,9 +1,12 @@
 package com.distgdx.game;
 
 import static com.distgdx.game.MyGame.*;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Decoy {
+    Texture alive;
+    Texture death;
     float x, y;
     float width, height;
     float vx, vy;
