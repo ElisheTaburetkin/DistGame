@@ -67,7 +67,7 @@ public class ScreenGame implements Screen {
         state = PLAY_GAME;
         enemy = new Enemy[g.numEnemy];
         for (int i = 0; i < enemy.length; i++) {
-            enemy[i] = new Enemy();
+            enemy[i] = new Enemy(imgEnemy[MathUtils.random(0, 2)], imgEnemy[3]);
         }
         kills = 0;
         if(g.musicOn) music.play();
@@ -219,7 +219,7 @@ public class ScreenGame implements Screen {
         g.batch.begin();
         g.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         for (int i = 0; i < enemy.length; i++) {
-            g.batch.draw(imgEnemy[enemy[i].phase], enemy[i].scrX(), enemy[i].scrY(), enemy[i].width, enemy[i].height, 0, 0, 500, 500, enemy[i].isFlip(), false);
+            g.batch.draw(enemy[i].img, enemy[i].scrX(), enemy[i].scrY(), enemy[i].width, enemy[i].height, 0, 0, 500, 500, enemy[i].isFlip(), false);
         }
         g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
         g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);

@@ -2,6 +2,7 @@ package com.distgdx.game;
 
 import static com.distgdx.game.MyGame.*;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Enemy {
@@ -10,14 +11,18 @@ public class Enemy {
     float vx, vy;
     int phase, nPhases = 4;
     boolean isAlive = true;
+    Texture img, imgLive, imgDead;
 
-    public Enemy(){
+    public Enemy(Texture live, Texture dead){
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
         width = height = MathUtils.random(50, 150);
         vx = MathUtils.random(-5f, 5);
         vy = MathUtils.random(-5f, 5);
         phase = MathUtils.random(0, 2);
+        imgLive = live;
+        imgDead = dead;
+        img = imgLive;
     }
     float scrX(){ //экранная Х
         return  x - width/2;
@@ -54,6 +59,7 @@ public class Enemy {
     boolean hit(float tx, float ty){
         if(x-width/2 < tx && tx < x+width/2 && y-height/2<ty && ty < y + height/2){
             isAlive = false;
+            img = imgDead;
             phase = 3;
             vx = 0;
             vy = -8;
