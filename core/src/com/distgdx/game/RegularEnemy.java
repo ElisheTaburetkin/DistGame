@@ -1,20 +1,25 @@
 package com.distgdx.game;
 
-import static com.distgdx.game.MyGame.SCR_HEIGHT;
-import static com.distgdx.game.MyGame.SCR_WIDTH;
 import static com.distgdx.game.MyGame.*;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Decoy extends RegularEnemy {
-    public Decoy(Texture live, Texture dead) {
-        super(live, dead);
+public class RegularEnemy extends Enemy {
+    float x, y;
+    float width, height;
+    float vx, vy;
+    int phase, nPhases = 4;
+    int lifes = 3;
+    boolean isAlive = true;
+    Texture img, imgLive, imgDead;
+
+    public RegularEnemy(Texture live, Texture dead){
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
-        width = height = MathUtils.random(30, 170);
-        vx = MathUtils.random(-5f, 5);
-        vy = MathUtils.random(-5f, 5);
+        width = height = MathUtils.random(50, 150);
+        vx = MathUtils.random(-7f, 7);
+        vy = MathUtils.random(-8f, 8);
+        phase = MathUtils.random(0, 2);
         imgLive = live;
         imgDead = dead;
         img = imgLive;
@@ -27,8 +32,8 @@ public class Decoy extends RegularEnemy {
     }
 
     void move(){
-        x += vx;
-        y += vy;
+        x+=vx;
+        y+=vy;
         if (isAlive) {
             notoutOfBounds();
         }
@@ -55,11 +60,16 @@ public class Decoy extends RegularEnemy {
             phase = 3;
             vx = 0;
             vy = -12;
-            lifes--;
             return true;
         }
         return false;
     }
+
+    @Override
+    boolean playerDeath() {
+        return lifes == 0;
+    }
+
     void reBorn(){
         isAlive = true;
         x = SCR_WIDTH/2f;

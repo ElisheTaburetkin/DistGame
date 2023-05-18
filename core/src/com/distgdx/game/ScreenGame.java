@@ -25,7 +25,7 @@ public class ScreenGame implements Screen {
     Sound sndSfx;
     Music music;
 
-    Enemy[] enemy;
+    RegularEnemy[] regularEnemy;
     int kills;
     long timeStart, timeFromStart;
     Player[] players = new Player[6];
@@ -38,7 +38,7 @@ public class ScreenGame implements Screen {
 
     public ScreenGame (MyGame context) {
         g = context;
-        enemy = new Enemy[g.numEnemy];
+        regularEnemy = new RegularEnemy[g.numEnemy];
         //отрисовка кнопок
         btnRestart = new TextButton(g.font, "RESTART", 10, 50);
         btnBack = new TextButton(g.font, "BACK", SCR_WIDTH-150, 50);
@@ -65,9 +65,9 @@ public class ScreenGame implements Screen {
 
     void gameStart(){
         state = PLAY_GAME;
-        enemy = new Enemy[g.numEnemy];
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i] = new Enemy(imgEnemy[MathUtils.random(0, 2)], imgEnemy[3]);
+        regularEnemy = new RegularEnemy[g.numEnemy];
+        for (int i = 0; i < regularEnemy.length; i++) {
+            regularEnemy[i] = new RegularEnemy(imgEnemy[MathUtils.random(0, 2)], imgEnemy[3]);
         }
         kills = 0;
         if(g.musicOn) music.play();
@@ -186,11 +186,11 @@ public class ScreenGame implements Screen {
                 if (g.keyboard.endOfEdit(g.touch.x, g.touch.y)) gameOver();
             }
             if(state == PLAY_GAME) {
-                for (int i = enemy.length - 1; i >= 0; i--) {
-                    if (enemy[i].isAlive && enemy[i].hit(g.touch.x, g.touch.y)) {
+                for (int i = regularEnemy.length - 1; i >= 0; i--) {
+                    if (regularEnemy[i].isAlive && regularEnemy[i].hit(g.touch.x, g.touch.y)) {
                         kills++;
                         if(g.soundOn) sndEnemy[MathUtils.random(sndEnemy.length - 1)].play();
-                        if (kills == enemy.length) state = ENTER_NAME;
+                        if (kills == regularEnemy.length) state = ENTER_NAME;
                         break;
                     }
                 }
@@ -202,7 +202,7 @@ public class ScreenGame implements Screen {
         }
 
         // игровые события
-        for (int i = 0; i < enemy.length; i++) enemy[i].move();
+        for (int i = 0; i < regularEnemy.length; i++) regularEnemy[i].move();
 
         if(state == PLAY_GAME) timeFromStart = TimeUtils.millis() - timeStart;
 
@@ -218,8 +218,8 @@ public class ScreenGame implements Screen {
         g.batch.setProjectionMatrix(g.camera.combined);
         g.batch.begin();
         g.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        for (int i = 0; i < enemy.length; i++) {
-            g.batch.draw(enemy[i].img, enemy[i].scrX(), enemy[i].scrY(), enemy[i].width, enemy[i].height, 0, 0, 500, 500, enemy[i].isFlip(), false);
+        for (int i = 0; i < regularEnemy.length; i++) {
+            g.batch.draw(regularEnemy[i].img, regularEnemy[i].scrX(), regularEnemy[i].scrY(), regularEnemy[i].width, regularEnemy[i].height, 0, 0, 500, 500, regularEnemy[i].isFlip(), false);
         }
         g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
         g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);
