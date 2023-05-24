@@ -73,9 +73,12 @@ public class ScreenGame implements Screen {
 
     void gameStart(){
         state = PLAY_GAME;
-        regularEnemy = new RegularEnemy[g.numEnemy];
+        //regularEnemy = new RegularEnemy[g.numEnemy];
         for (int i = 0; i < regularEnemy.length; i++) {
             regularEnemy[i] = new RegularEnemy(imgEnemy[MathUtils.random(0, 2)], imgEnemy[3]);
+        }
+        for (int i = 0; i < decoy.length; i++) {
+            decoy[i] = new Decoy(imgDecoy[0], imgDecoy[1]);
         }
         kills = 0;
         if(g.musicOn) music.play();
