@@ -26,6 +26,7 @@ public class MyGame extends Game {
     boolean soundOn = true;
     boolean musicOn = true;
     int numEnemy = 10;
+    int numDecoy = 3;
 
     @Override
     public void create() {

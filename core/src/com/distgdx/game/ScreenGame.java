@@ -20,12 +20,15 @@ public class ScreenGame implements Screen {
 
     Texture[] imgEnemy = new Texture[4];
     Texture imgBG;
+    Texture imgPlatform;
+    Texture[] imgDecoy = new Texture[2];
 
     Sound[] sndEnemy = new Sound[4];
     Sound sndSfx;
     Music music;
 
     RegularEnemy[] regularEnemy;
+    Decoy[] decoy;
     int kills;
     long timeStart, timeFromStart;
     Player[] players = new Player[6];
@@ -39,13 +42,18 @@ public class ScreenGame implements Screen {
     public ScreenGame (MyGame context) {
         g = context;
         regularEnemy = new RegularEnemy[g.numEnemy];
+        decoy = new Decoy[g.numDecoy];
         //отрисовка кнопок
         btnRestart = new TextButton(g.font, "RESTART", 10, 50);
         btnBack = new TextButton(g.font, "BACK", SCR_WIDTH-150, 50);
         //Текстуры Enemy
         imgBG = new Texture("img.png");
+        imgPlatform = new Texture("platform.jpg");
         for (int i = 0; i < imgEnemy.length; i++) {
             imgEnemy[i] = new Texture("shtpst"+i+".png");
+        }
+        for (int i = 0; i < imgDecoy.length; i++) {
+            imgDecoy[i] = new Texture("decoy.jpg");
         }
         //звуки
         for (int i = 0; i < sndEnemy.length; i++) {
@@ -218,8 +226,12 @@ public class ScreenGame implements Screen {
         g.batch.setProjectionMatrix(g.camera.combined);
         g.batch.begin();
         g.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
+        g.batch.draw(imgPlatform, 0, 0, SCR_WIDTH, SCR_HEIGHT / 5);
         for (int i = 0; i < regularEnemy.length; i++) {
             g.batch.draw(regularEnemy[i].img, regularEnemy[i].scrX(), regularEnemy[i].scrY(), regularEnemy[i].width, regularEnemy[i].height, 0, 0, 500, 500, regularEnemy[i].isFlip(), false);
+        }
+        for (int i = 0; i < decoy.length; i++) {
+            g.batch.draw(decoy[i].img, decoy[i].scrX(), decoy[i].scrY(), decoy[i].width, decoy[i].height, 0, 0, 500, 500, decoy[i].isFlip(), false);
         }
         g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
         g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);
@@ -272,6 +284,7 @@ public class ScreenGame implements Screen {
         music.dispose();
         sndSfx.dispose();
         g.keyboard.dispose();
+        imgPlatform.dispose();
     }
 }
 

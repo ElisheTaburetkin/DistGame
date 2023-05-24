@@ -17,8 +17,8 @@ public class RegularEnemy extends Enemy {
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
         width = height = MathUtils.random(50, 150);
-        vx = MathUtils.random(-7f, 7);
-        vy = MathUtils.random(-8f, 8);
+        vx = MathUtils.random(-6, 6);
+        vy = MathUtils.random(-8, 8);
         phase = MathUtils.random(0, 2);
         imgLive = live;
         imgDead = dead;
@@ -48,7 +48,7 @@ public class RegularEnemy extends Enemy {
     }
     void notoutOfBounds(){
         if(x>SCR_WIDTH-width/2 || x<0+width/2) vx = -vx;
-        if(y>SCR_HEIGHT-height/2 || y<0+height/2) vy = -vy;
+        if(y>SCR_HEIGHT-height/2 || y<SCR_HEIGHT / 5 + height/2) vy = -vy;
     }
     boolean isFlip(){
         return vx > 0;
@@ -58,8 +58,8 @@ public class RegularEnemy extends Enemy {
             isAlive = false;
             img = imgDead;
             phase = 3;
-            vx = 0;
-            vy = -12;
+            vx = MathUtils.random(-6, 6);
+            vy = MathUtils.random(-20, -12);
             return true;
         }
         return false;

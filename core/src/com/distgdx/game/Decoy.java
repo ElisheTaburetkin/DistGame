@@ -53,8 +53,8 @@ public class Decoy extends RegularEnemy {
             isAlive = false;
             img = imgDead;
             phase = 3;
-            vx = 0;
-            vy = -12;
+            vx = MathUtils.random(-6, 6);
+            vy = MathUtils.random(-20, -12);
             lifes--;
             return true;
         }
