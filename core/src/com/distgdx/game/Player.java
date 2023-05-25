@@ -12,13 +12,23 @@ public class Player {
     float vx, vy;
     boolean isAlive = true;
     Texture imgLive, imgDead;
+    boolean isRight;
 
     public Player(String name) {
         this.name = name;
+        x = 144;
     }
-    void Move(){
-        x = 144 + height;
 
+    public Player() {
+        y = 144;
+        x = SCR_WIDTH/2;
+        width = 200;
+        height = 200;
+        isRight = false;
+    }
+
+    void move(){
+        x = 144 + height;
     }
 
 }

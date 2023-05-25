@@ -4,6 +4,7 @@ import static com.distgdx.game.MyGame.SCR_HEIGHT;
 import static com.distgdx.game.MyGame.SCR_WIDTH;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -32,6 +33,7 @@ public class ScreenGame implements Screen {
     int kills;
     long timeStart, timeFromStart;
     Player[] players = new Player[6];
+    Player player;
 
     TextButton btnRestart, btnBack;
 
@@ -67,7 +69,7 @@ public class ScreenGame implements Screen {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player("Noname");
         }
-
+        player = new Player();
         loadTableOfRecords();
     }
 
@@ -216,6 +218,14 @@ public class ScreenGame implements Screen {
                 }
             }
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+            player.x -= 10;
+            player.isRight = false;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+            player.x += 10;
+            player.isRight = true;
+        }
 
         // игровые события
         for (int i = 0; i < regularEnemy.length; i++) regularEnemy[i].move();
@@ -242,6 +252,9 @@ public class ScreenGame implements Screen {
         for (int i = 0; i < decoy.length; i++) {
             g.batch.draw(decoy[i].img, decoy[i].scrX(), decoy[i].scrY(), decoy[i].width, decoy[i].height, 0, 0, 678, 600, decoy[i].isFlip(), false);
         }
+
+        g.batch.draw(decoy[0].img, player.x, player.y, player.width, player.height, 0, 0, 678, 600, player.isRight, false);
+
         g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
         g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);
         if(state == PLAY_GAME) {
