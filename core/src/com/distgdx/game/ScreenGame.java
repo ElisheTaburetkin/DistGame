@@ -53,7 +53,7 @@ public class ScreenGame implements Screen {
             imgEnemy[i] = new Texture("shtpst"+i+".png");
         }
         for (int i = 0; i < imgDecoy.length; i++) {
-            imgDecoy[i] = new Texture("decoy.jpg");
+            imgDecoy[i] = new Texture("decoy"+i+".png");
         }
         //звуки
         for (int i = 0; i < sndEnemy.length; i++) {
@@ -73,7 +73,6 @@ public class ScreenGame implements Screen {
 
     void gameStart(){
         state = PLAY_GAME;
-        //regularEnemy = new RegularEnemy[g.numEnemy];
         for (int i = 0; i < regularEnemy.length; i++) {
             regularEnemy[i] = new RegularEnemy(imgEnemy[MathUtils.random(0, 2)], imgEnemy[3]);
         }
@@ -205,6 +204,12 @@ public class ScreenGame implements Screen {
                         break;
                     }
                 }
+                for (int i = decoy.length - 1; i >= 0; i--) {
+                    if (decoy[i].isAlive && decoy[i].hit(g.touch.x, g.touch.y)) {
+                        if(g.soundOn) sndEnemy[MathUtils.random(sndEnemy.length - 1)].play();
+                        break;
+                    }
+                }
                 if(btnBack.hit(g.touch.x, g.touch.y)) {
                     g.setScreen(g.screenIntro);
                     sndSfx.play(0.4f);
@@ -214,6 +219,7 @@ public class ScreenGame implements Screen {
 
         // игровые события
         for (int i = 0; i < regularEnemy.length; i++) regularEnemy[i].move();
+        for (int i = 0; i < decoy.length; i++) decoy[i].move();
 
         if(state == PLAY_GAME) timeFromStart = TimeUtils.millis() - timeStart;
 
@@ -229,12 +235,12 @@ public class ScreenGame implements Screen {
         g.batch.setProjectionMatrix(g.camera.combined);
         g.batch.begin();
         g.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        g.batch.draw(imgPlatform, 0, 0, SCR_WIDTH, SCR_HEIGHT / 5);
+        g.batch.draw(imgPlatform, 0, 0, SCR_WIDTH, 144);
         for (int i = 0; i < regularEnemy.length; i++) {
             g.batch.draw(regularEnemy[i].img, regularEnemy[i].scrX(), regularEnemy[i].scrY(), regularEnemy[i].width, regularEnemy[i].height, 0, 0, 500, 500, regularEnemy[i].isFlip(), false);
         }
         for (int i = 0; i < decoy.length; i++) {
-            g.batch.draw(decoy[i].img, decoy[i].scrX(), decoy[i].scrY(), decoy[i].width, decoy[i].height, 0, 0, 500, 500, decoy[i].isFlip(), false);
+            g.batch.draw(decoy[i].img, decoy[i].scrX(), decoy[i].scrY(), decoy[i].width, decoy[i].height, 0, 0, 678, 600, decoy[i].isFlip(), false);
         }
         g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
         g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);

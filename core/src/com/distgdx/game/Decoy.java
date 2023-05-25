@@ -15,6 +15,7 @@ public class Decoy extends RegularEnemy {
         width = height = MathUtils.random(30, 170);
         vx = MathUtils.random(-5f, 5);
         vy = MathUtils.random(-5f, 5);
+        phase = MathUtils.random(0, 2);
         imgLive = live;
         imgDead = dead;
         img = imgLive;
@@ -43,7 +44,7 @@ public class Decoy extends RegularEnemy {
     }
     void notoutOfBounds(){
         if(x>SCR_WIDTH-width/2 || x<0+width/2) vx = -vx;
-        if(y>SCR_HEIGHT-height/2 || y<0+height/2) vy = -vy;
+        if(y>SCR_HEIGHT-height/2 || y<SCR_HEIGHT / 5 + height/2) vy = -vy;
     }
     boolean isFlip(){
         return vx > 0;
