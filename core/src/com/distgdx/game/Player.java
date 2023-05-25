@@ -28,7 +28,6 @@ public class Player {
     }
 
     void move(){
-        x = 144 + height;
     }
 
 }
