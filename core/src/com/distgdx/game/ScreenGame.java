@@ -50,7 +50,7 @@ public class ScreenGame implements Screen {
         decoy = new Decoy[g.numDecoy];
         //отрисовка кнопок
         btnRestart = new TextButton(g.font, "RESTART", 10, 50);
-        btnBack = new TextButton(g.font, "BACK", SCR_WIDTH-150, 50);
+        btnBack = new TextButton(g.font, "BACK", SCR_WIDTH-220, 50);
         //Текстуры Enemy
         imgBG = new Texture("img.png");
         imgPlayer = new Texture("shtpst4.png");
