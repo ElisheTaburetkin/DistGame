@@ -20,14 +20,11 @@ public class Player {
     }
 
     public Player() {
-        y = 144;
+        y = 137;
         x = SCR_WIDTH/2;
         width = 200;
         height = 200;
         isRight = false;
-    }
-
-    void move(){
     }
 
 }

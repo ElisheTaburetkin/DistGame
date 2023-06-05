@@ -27,6 +27,7 @@ public class MyGame extends Game {
     boolean musicOn = true;
     int numEnemy = 11;
     int numDecoy = 2;
+    int lifes = 5;
 
     @Override
     public void create() {
@@ -45,7 +46,7 @@ public class MyGame extends Game {
     }
 
     void generateFont(){
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("text_sample.otf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Motel King Medium(RUS by Slavchansky).ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 50;
         parameter.color = new Color().set(1, 0.9f, 0.3f, 1);

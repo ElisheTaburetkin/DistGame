@@ -62,12 +62,13 @@ public class Decoy extends RegularEnemy {
         return false;
     }
     void reBorn(){
-        isAlive = true;
+        /*isAlive = true;
         x = SCR_WIDTH/2f;
         y = SCR_HEIGHT/2f;
         width = height = MathUtils.random(50, 150);
         vx = MathUtils.random(-5f, 5);
         vy = MathUtils.random(-5f, 5);
-        phase = MathUtils.random(0, nPhases-1);
+        g.numDecoy++;
+        phase = MathUtils.random(0, nPhases-1);*/
     }
 }

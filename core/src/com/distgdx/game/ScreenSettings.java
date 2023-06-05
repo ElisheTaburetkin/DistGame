@@ -13,18 +13,19 @@ public class ScreenSettings implements Screen {
     Texture imgBG;
     Sound sound;
 
-    TextButton btnMosquitos, btnSound, btnMusic, btnClearTable, btnBack;
+    TextButton btnEnemies, btnSound, btnMusic, btnClearTable, btnBack, btnDecoys;
     //Slider slider;
     // состояние
-    boolean enterNumMosquitos;
+    boolean enterNumEnemies, enterNumDecoys;
 
     public ScreenSettings(MyGame context){
         g = context;
-        btnMosquitos = new TextButton(g.fontLarge, "MOSQUITOS: "+g.numEnemy, 200, 600);
-        btnSound = new TextButton(g.fontLarge, "SOUND ON", 200, 500);
-        btnMusic = new TextButton(g.fontLarge, "MUSIC ON", 200, 400);
-        btnClearTable = new TextButton(g.fontLarge, "CLEAR TABLE", 200, 300);
-        btnBack = new TextButton(g.fontLarge, "BACK", 200, 200);
+        btnEnemies = new TextButton(g.fontLarge, "Enemies: "+g.numEnemy, 200, 600);
+        btnDecoys = new TextButton(g.fontLarge, "Decoys: "+g.numDecoy, 200, 500);
+        btnSound = new TextButton(g.fontLarge, "SOUND ON", 200, 400);
+        btnMusic = new TextButton(g.fontLarge, "MUSIC ON", 200, 300);
+        btnClearTable = new TextButton(g.fontLarge, "CLEAR TABLE", 200, 200);
+        btnBack = new TextButton(g.fontLarge, "BACK", 200, 100);
         imgBG = new Texture("InkedSettingsScreen.jpg");
         sound = Gdx.audio.newSound(Gdx.files.internal("bonk.mp3"));
         /*Skin skin = new Skin();
@@ -43,24 +44,33 @@ public class ScreenSettings implements Screen {
         if(Gdx.input.justTouched()) {
             g.touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             g.camera.unproject(g.touch);
-            if(enterNumMosquitos) {
+            if(enterNumEnemies || enterNumDecoys) {
                 if(g.keyboard.endOfEdit(g.touch.x, g.touch.y)) {
-                    enterNumMosquitos = false;
+                    enterNumEnemies = false;
+                    enterNumDecoys = false;
                     String s = g.keyboard.getText();
-                    int x;
+                    String d = g.keyboard.getText();
+                    int x, y;
                     try {
                         x = Integer.parseInt(s);
+                        y = Integer.parseInt(d);
                     } catch (Exception e){
                         x = 0;
+                        y = 0;
                     }
-                    if(x>0 && x<1000) {
+                    if(x>0 && x<1000 || y > 0 && x < 1000) {
                         g.numEnemy = x;
-                        btnMosquitos.setText("MOSQUITOS: "+g.numEnemy);
+                        g.numDecoy = y;
+                        btnEnemies.setText("ENEMIES: "+ g.numEnemy);
+                        btnDecoys.setText("DECOYS: " + g.numDecoy);
                     }
                 }
             } else {
-                if (btnMosquitos.hit(g.touch.x, g.touch.y)) {
-                    enterNumMosquitos = true;
+                if (btnEnemies.hit(g.touch.x, g.touch.y)) {
+                    enterNumEnemies = true;
+                }
+                if (btnDecoys.hit(g.touch.x, g.touch.y)) {
+                    enterNumDecoys = true;
                 }
                 if (btnSound.hit(g.touch.x, g.touch.y)) {
                     g.soundOn = !g.soundOn;
@@ -70,6 +80,7 @@ public class ScreenSettings implements Screen {
                         btnSound.setText("SOUND OFF");
                     }
                 }
+
                 if (btnMusic.hit(g.touch.x, g.touch.y)) {
                     g.musicOn = !g.musicOn;
                     btnMusic.setText(g.musicOn ? "MUSIC ON" : "MUSIC OFF");
@@ -95,12 +106,16 @@ public class ScreenSettings implements Screen {
         g.batch.setProjectionMatrix(g.camera.combined);
         g.batch.begin();
         g.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        btnMosquitos.font.draw(g.batch, btnMosquitos.text, btnMosquitos.x, btnMosquitos.y);
+        btnEnemies.font.draw(g.batch, btnEnemies.text, btnEnemies.x, btnEnemies.y);
+        btnDecoys.font.draw(g.batch, btnDecoys.text, btnDecoys.x, btnDecoys.y);
         btnSound.font.draw(g.batch, btnSound.text, btnSound.x, btnSound.y);
         btnMusic.font.draw(g.batch, btnMusic.text, btnMusic.x, btnMusic.y);
         btnClearTable.font.draw(g.batch, btnClearTable.text, btnClearTable.x, btnClearTable.y);
         btnBack.font.draw(g.batch, btnBack.text, btnBack.x, btnBack.y);
-        if(enterNumMosquitos){
+        if(enterNumEnemies){
+            g.keyboard.draw(g.batch);
+        }
+        if(enterNumDecoys){
             g.keyboard.draw(g.batch);
         }
         g.batch.end();

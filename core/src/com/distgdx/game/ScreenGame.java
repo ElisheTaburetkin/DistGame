@@ -23,6 +23,9 @@ public class ScreenGame implements Screen {
     Texture imgBG;
     Texture imgPlatform;
     Texture[] imgDecoy = new Texture[2];
+    Texture imgPlayer;
+
+    int lifes = 5;
 
     Sound[] sndEnemy = new Sound[4];
     Sound sndSfx;
@@ -50,6 +53,7 @@ public class ScreenGame implements Screen {
         btnBack = new TextButton(g.font, "BACK", SCR_WIDTH-150, 50);
         //Текстуры Enemy
         imgBG = new Texture("img.png");
+        imgPlayer = new Texture("shtpst4.png");
         imgPlatform = new Texture("platform.jpg");
         for (int i = 0; i < imgEnemy.length; i++) {
             imgEnemy[i] = new Texture("shtpst"+i+".png");
@@ -198,6 +202,7 @@ public class ScreenGame implements Screen {
                 if (g.keyboard.endOfEdit(g.touch.x, g.touch.y)) gameOver();
             }
             if(state == PLAY_GAME) {
+                if (lifes == 0) g.setScreen(g.screenIntro);
                 for (int i = regularEnemy.length - 1; i >= 0; i--) {
                     if (regularEnemy[i].isAlive && regularEnemy[i].hit(g.touch.x, g.touch.y)) {
                         kills++;
@@ -207,8 +212,10 @@ public class ScreenGame implements Screen {
                     }
                 }
                 for (int i = decoy.length - 1; i >= 0; i--) {
+                    if(decoy[i].x == player.x || decoy[i].y == player.y) lifes --;
                     if (decoy[i].isAlive && decoy[i].hit(g.touch.x, g.touch.y)) {
                         if(g.soundOn) sndEnemy[MathUtils.random(sndEnemy.length - 1)].play();
+                        lifes--;
                         break;
                     }
                 }
@@ -233,10 +240,9 @@ public class ScreenGame implements Screen {
 
         if(state == PLAY_GAME) timeFromStart = TimeUtils.millis() - timeStart;
 
-        // возрожджение комаров
-      /*for (int i = 0; i < mosq.length; i++) {
-         if(!mosq[i].isAlive) {
-            if(MathUtils.random(1000) == 5) mosq[i].reBorn();
+      /*for (int i = 0; i < regularEnemy.length; i++) {
+         if(!regularEnemy[i].isAlive) {
+            if(MathUtils.random(1000) == 5) regularEnemy[i].reBorn();
          }
       }*/
 
@@ -253,10 +259,11 @@ public class ScreenGame implements Screen {
             g.batch.draw(decoy[i].img, decoy[i].scrX(), decoy[i].scrY(), decoy[i].width, decoy[i].height, 0, 0, 678, 600, decoy[i].isFlip(), false);
         }
 
-        g.batch.draw(decoy[0].img, player.x, player.y, player.width, player.height, 0, 0, 678, 600, player.isRight, false);
+        g.batch.draw(imgPlayer, player.x, player.y, player.width, player.height, 0, 0, 188, 160, !player.isRight, false);
 
-        g.font.draw(g.batch, "Cringe streak: "+'x'+kills, 10, SCR_HEIGHT-10);
-        g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-250, SCR_HEIGHT-10);
+        g.font.draw(g.batch, "Cringe streak: "+kills, 10, SCR_HEIGHT-10);
+        g.font.draw(g.batch, "lifes: " + lifes, SCR_WIDTH / 2 + 60, SCR_HEIGHT - 10);
+        g.font.draw(g.batch, timeToString(timeFromStart), SCR_WIDTH-300, SCR_HEIGHT-10);
         if(state == PLAY_GAME) {
             g.font.draw(g.batch, btnBack.text, btnBack.x, btnBack.y);
         }
@@ -292,6 +299,7 @@ public class ScreenGame implements Screen {
     @Override
     public void hide() {
         music.stop();
+        sndSfx.stop();
     }
 
     @Override
@@ -307,6 +315,8 @@ public class ScreenGame implements Screen {
         sndSfx.dispose();
         g.keyboard.dispose();
         imgPlatform.dispose();
+        imgPlayer.dispose();
+        imgBG.dispose();
     }
 }
 
