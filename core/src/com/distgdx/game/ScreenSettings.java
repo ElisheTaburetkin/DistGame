@@ -61,8 +61,8 @@ public class ScreenSettings implements Screen {
                     if(x>0 && x<1000 || y > 0 && x < 1000) {
                         g.numEnemy = x;
                         g.numDecoy = y;
-                        btnEnemies.setText("ENEMIES: "+ g.numEnemy);
-                        btnDecoys.setText("DECOYS: " + g.numDecoy);
+                        btnEnemies.setText("ENEMIES: "+ x);
+                        btnDecoys.setText("DECOYS: " + y);
                     }
                 }
             } else {

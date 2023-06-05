@@ -67,7 +67,7 @@ public class ScreenGame implements Screen {
         }
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
-        music.setVolume(0.4f);
+        music.setVolume(0.01f);
         sndSfx = Gdx.audio.newSound(Gdx.files.internal("bruh.mp3"));
         //задаем дефолтное имя игроку
         for (int i = 0; i < players.length; i++) {
@@ -94,7 +94,6 @@ public class ScreenGame implements Screen {
         state = SHOW_TABLE;
         players[players.length-1].time = timeFromStart;
         players[players.length-1].name = g.keyboard.getText();
-        //players[players.length-1].name = generateRndName();
         sortTable();
         saveTableOfRecords();
     }
